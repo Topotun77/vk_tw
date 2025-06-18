@@ -18,7 +18,7 @@
 ---
 
 В процессе выполнения скриптов ведется логирование. Пример записей в журнале:
-```mermaid
+```
 SENDER --> | 2025-06-18 18:39:25,308 | INFO | pika.adapters.utils.connection_workflow | Pika version 1.3.2 connecting to ('172.19.0.3', 5672)
 SENDER --> | 2025-06-18 18:39:25,310 | INFO | pika.adapters.utils.io_services_utils | Socket connected: <socket.socket fd=8, family=2, type=1, proto=6, laddr=('172.19.0.4', 40588), raddr=('172.19.0.3', 5672)>
 SENDER --> | 2025-06-18 18:39:25,310 | INFO | pika.adapters.utils.connection_workflow | Streaming transport linked up: (<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7fcc246e8470>, _StreamingProtocolShim: <SelectConnection PROTOCOL transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7fcc246e8470> params=<ConnectionParameters host=rabbit port=5672 virtual_host=/ ssl=False>>).
