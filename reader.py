@@ -89,7 +89,7 @@ def msg_callback(ch, method, properties, body):
 if __name__ == '__main__':
     logging.basicConfig(
         filename='/etc/secrets/log.txt', filemode='a', encoding='utf-8',
-        format=' --> READER | %(asctime)s | %(levelname)s | %(name)s | %(message)s',
+        format='--> READER | %(asctime)s | %(levelname)s | %(name)s | %(message)s',
         level=logging.INFO)
 
     # Внутренний логгер
