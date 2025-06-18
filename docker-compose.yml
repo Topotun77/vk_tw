@@ -1,0 +1,86 @@
+services:
+  db:
+    image: postgres:latest
+    container_name: postgres-container
+    volumes:
+      - postgres:/var/lib/postgresql/data
+      - type: bind
+        source: ./.env
+        target: /etc/secrets/.env
+      - ./create_messages.sql:/docker-entrypoint-initdb.d/create_messages.sql
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready", "-U", "admin" ]
+    networks:
+      - my_net
+
+  rabbit:
+    image: rabbitmq:management
+    container_name: rabbitmq-container
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - type: bind
+        source: ./.env
+        target: /etc/secrets/.env
+    healthcheck:
+      test:
+        - CMD
+        - rabbitmq-diagnostics
+        - -q
+        - ping
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    networks:
+      - my_net
+
+  sender:
+    build: .
+    container_name: sender-container
+    command: python sender.py
+    depends_on:
+#      db:
+#        condition: service_healthy
+      rabbit:
+        condition: service_healthy
+    volumes:
+      - type: bind
+        source: ./.env
+        target: /etc/secrets/.env
+      - type: bind
+        source: ./log.txt
+        target: /etc/secrets/log.txt
+    networks:
+      - send_read_net
+      - my_net
+
+  reader:
+    build: .
+    container_name: reader-container
+    command: python reader.py
+    depends_on:
+      rabbit:
+        condition: service_started
+      db:
+        condition: service_healthy
+    volumes:
+      - type: bind
+        source: ./.env
+        target: /etc/secrets/.env
+      - type: bind
+        source: ./log.txt
+        target: /etc/secrets/log.txt
+    networks:
+      - send_read_net
+      - my_net
+
+networks:
+  my_net:
+    driver: bridge
+  send_read_net:
+    driver: bridge
+
+volumes:
+  postgres: {}
