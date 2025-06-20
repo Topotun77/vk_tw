@@ -62,6 +62,12 @@ SENDER --> | 2025-06-18 18:40:17,071 | INFO | internal_log | Отправлен�
 ### Статистика RabbitMQ:
 ![RabbitMQ](https://github.com/Topotun77/vk_tw/blob/master/ScreenShots/001.JPG?raw=true)
 
+### Лог sender:
+![Sender](https://github.com/Topotun77/vk_tw/blob/master/ScreenShots/002.JPG?raw=true)
+
+### Лог reader:
+![Reader](https://github.com/Topotun77/vk_tw/blob/master/ScreenShots/003.JPG?raw=true)
+
 
 ## Для запуска приложения:
 1. **Файл с чувствительными данными `.env` поместить в корень проекта.**  

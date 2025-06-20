@@ -82,13 +82,16 @@ def reader_messages() -> None:
 def msg_callback(ch, method, properties, body):
     """ Вывод полученного из очереди RabbitMQ сообщения в журнал """
     body = body.decode()
-    internal_log.info(f'Получено сообщение: "{body}"')
+    msg = f'{datetime.now()} Получено сообщение: "{body}"'
+    logging.info(msg)
+    print(msg)
+    # internal_log.info(f'Получено сообщение: "{body}"')
     save_message(body)
 
 
 if __name__ == '__main__':
     logging.basicConfig(
-        filename='/etc/secrets/log.txt', filemode='a', encoding='utf-8',
+        filename='/log/log.txt', filemode='a', encoding='utf-8',
         format='--> READER | %(asctime)s | %(levelname)s | %(name)s | %(message)s',
         level=logging.INFO)
 
@@ -114,7 +117,10 @@ if __name__ == '__main__':
                 cur = conn.cursor()
                 cur.execute("SELECT COUNT(*) FROM messages;")
                 count = cur.fetchone()[0]
-                internal_log.info(f"Количество записей в БД: {count}")
+                # internal_log.info(f"Количество записей в БД: {count}")
+                msg = f"Количество записей в БД: {count}"
+                logging.info(msg)
+                print(msg)
             time.sleep(30)
     except KeyboardInterrupt:
         pass

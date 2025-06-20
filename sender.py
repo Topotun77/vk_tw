@@ -30,7 +30,7 @@ def sender_messages(queue_name: str):
 if __name__ == '__main__':
     # Основной логгер
     logging.basicConfig(
-        filename='/etc/secrets/log.txt', filemode='a', encoding='utf-8',
+        filename='/log/log.txt', filemode='a', encoding='utf-8',
         format='SENDER --> | %(asctime)s | %(levelname)s | %(name)s | %(message)s',
         level=logging.INFO)
 
@@ -51,7 +51,10 @@ if __name__ == '__main__':
             i += 1
             message = f'Сообщение #{i} отправлено {datetime.now()}'
             channel.basic_publish(exchange='', routing_key=queue_name, body=message.encode())
-            internal_log.info(f'Отправлено сообщение: "{message}"')
+            msg = f'Отправлено сообщение: "{message}"'
+            logging.info(msg)
+            print(msg)
+            # internal_log.info(f'Отправлено сообщение: "{message}"')
             time.sleep(5)
     finally:
         connection.close()

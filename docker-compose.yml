@@ -43,7 +43,7 @@ services:
   sender:
     build: .
     container_name: sender-container
-    command: python sender.py
+    command: python -u sender.py
     depends_on:
 #      db:
 #        condition: service_healthy
@@ -55,7 +55,7 @@ services:
         target: /etc/secrets/.env
       - type: bind
         source: ./log.txt
-        target: /etc/secrets/log.txt
+        target: /log/log.txt
     networks:
       - send_read_net
       - my_net
@@ -63,7 +63,7 @@ services:
   reader:
     build: .
     container_name: reader-container
-    command: python reader.py
+    command: python -u reader.py
     depends_on:
       rabbit:
         condition: service_started
@@ -75,7 +75,7 @@ services:
         target: /etc/secrets/.env
       - type: bind
         source: ./log.txt
-        target: /etc/secrets/log.txt
+        target: /log/log.txt
     networks:
       - send_read_net
       - my_net
